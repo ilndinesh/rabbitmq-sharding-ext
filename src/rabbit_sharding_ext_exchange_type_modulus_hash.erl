@@ -47,7 +47,7 @@ route(#exchange{name = Name},
     Qs = rabbit_router:match_routing_key(Name, ['_']),
     case length(Qs) of
         0 -> [];
-        N -> [lists:nth(hash_mod(rnd(), N), Qs)]
+        N -> [lists:nth(hash_mod([rnd()], N), Qs)]
     end.
 
 validate(_X) -> ok.
