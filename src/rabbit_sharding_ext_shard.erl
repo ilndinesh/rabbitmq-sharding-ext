@@ -1,4 +1,4 @@
--module(rabbit_sharding_shard).
+-module(rabbit_sharding_ext_shard).
 
 -include_lib("rabbit_common/include/rabbit.hrl").
 
@@ -8,11 +8,11 @@
          stop_sharding/1]).
 
 -import(rabbit_misc, [r/3]).
--import(rabbit_sharding_util, [a2b/1, exchange_bin/1, make_queue_name/3,
+-import(rabbit_sharding_ext_util, [a2b/1, exchange_bin/1, make_queue_name/3,
                                routing_key/1, shards_per_node/1]).
 
--rabbit_boot_step({rabbit_sharding_maybe_shard,
-                   [{description, "rabbit sharding maybe shard"},
+-rabbit_boot_step({rabbit_sharding_ext_maybe_shard,
+                   [{description, "rabbit sharding ext maybe shard"},
                     {mfa,         {?MODULE, maybe_shard_exchanges, []}},
                     {requires,    recovery}]}).
 
@@ -26,7 +26,7 @@ maybe_shard_exchanges() ->
 
 maybe_shard_exchanges(VHost) ->
     [ensure_sharded_queues(X) ||
-        X <- rabbit_sharding_util:sharded_exchanges(VHost)].
+        X <- rabbit_sharding_ext_util:sharded_exchanges(VHost)].
 
 %% queue needs to be declared on the respective node.
 ensure_sharded_queues(X) ->
