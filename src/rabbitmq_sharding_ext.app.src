@@ -1,0 +1,6 @@
+{application, rabbitmq_sharding_ext,
+ [{description, "RabbitMQ Sharding Ext Plugin"},
+  {vsn, "0.1.0"},
+  {modules, []},
+  {registered, []},
+  {applications, [kernel, stdlib, rabbit]}]}.
