@@ -17,6 +17,7 @@
 -module(rabbit_sharding_ext_exchange_type_modulus_hash).
 
 -include_lib("rabbit_common/include/rabbit.hrl").
+-include_lib("eunit/include/eunit.hrl").
 -include_lib("amqp_client/include/amqp_client.hrl").
 
 -behaviour(rabbit_exchange_type).
