@@ -17,8 +17,6 @@
 -module(rabbit_sharding_ext_exchange_type_modulus_hash).
 
 -include_lib("rabbit_common/include/rabbit.hrl").
--include_lib("eunit/include/eunit.hrl").
--include_lib("amqp_client/include/amqp_client.hrl").
 
 -behaviour(rabbit_exchange_type).
 
@@ -65,3 +63,7 @@ assert_args_equivalence(X, Args) ->
 hash_mod(Routes, N) ->
     M = erlang:phash2(Routes, ?PHASH2_RANGE) rem N,
     M + 1. %% erlang lists are 1..N indexed.
+
+rnd() ->
+    list_to_binary(integer_to_list(random:uniform(1000000))).
+    
