@@ -60,15 +60,15 @@ policy_changed(OldX, NewX) ->
 maybe_update_sharding(OldX, NewX) ->
     case shard(NewX) of
         true  ->
-            rabbit_sharding_shard:maybe_update_shards(OldX, NewX);
+            rabbit_sharding_ext_shard:maybe_update_shards(OldX, NewX);
         false ->
-            rabbit_sharding_shard:stop_sharding(OldX)
+            rabbit_sharding_ext_shard:stop_sharding(OldX)
     end.
 
 maybe_start_sharding(X)->
     case shard(X) of
         true  ->
-            rabbit_sharding_shard:ensure_sharded_queues(X);
+            rabbit_sharding_ext_shard:ensure_sharded_queues(X);
         false ->
             ok
     end.
@@ -76,7 +76,7 @@ maybe_start_sharding(X)->
 maybe_stop_sharding(X) ->
     case shard(X) of
         true  ->
-            rabbit_sharding_shard:stop_sharding(X);
+            rabbit_sharding_ext_shard:stop_sharding(X);
         false ->
             ok
     end.
