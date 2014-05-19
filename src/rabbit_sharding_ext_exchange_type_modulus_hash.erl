@@ -47,7 +47,8 @@ route(#exchange{name = Name},
     Qs = rabbit_router:match_routing_key(Name, ['_']),
     case length(Qs) of
         0 -> [];
-        N -> [lists:nth(hash_mod([rnd()], N), Qs)]
+        N -> Rand = crypto:rand_uniform(1, N + 1),
+        [lists:nth(Rand, Qs)]
     end.
 
 validate(_X) -> ok.
