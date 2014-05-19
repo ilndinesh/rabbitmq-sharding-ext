@@ -1,11 +1,11 @@
--module(rabbit_sharding_exchange_decorator).
+-module(rabbit_sharding_ext_exchange_decorator).
 
 -rabbit_boot_step({?MODULE,
-                   [{description, "sharding exchange decorator"},
+                   [{description, "sharding ext exchange decorator"},
                     {mfa, {rabbit_registry, register,
-                           [exchange_decorator, <<"sharding">>, ?MODULE]}},
+                           [exchange_decorator, <<"sharding-ext">>, ?MODULE]}},
                     {cleanup, {rabbit_registry, unregister,
-                               [exchange_decorator, <<"sharding">>]}},
+                               [exchange_decorator, <<"sharding-ext">>]}},
                     {requires, rabbit_registry},
                     {enables, recovery}]}).
 
@@ -22,7 +22,7 @@
 %%----------------------------------------------------------------------------
 
 description() ->
-    [{description, <<"Shard exchange decorator">>}].
+    [{description, <<"Shard ext exchange decorator">>}].
 
 serialise_events(_X) -> false.
 
