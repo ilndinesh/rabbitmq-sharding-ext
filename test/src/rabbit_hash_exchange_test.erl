@@ -50,7 +50,7 @@ test0(MakeMethod, MakeMsg, Queues, MsgCount, Count) ->
         amqp_channel:call(Chan,
                           #'exchange.declare' {
                             exchange = <<"e">>,
-                            type = <<"x-modulus-hash">>,
+                            type = <<"x-modulus-hash-ext">>,
                             auto_delete = true
                            }),
     [#'queue.declare_ok'{} =
