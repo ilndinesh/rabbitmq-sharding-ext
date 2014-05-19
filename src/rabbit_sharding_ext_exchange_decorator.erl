@@ -17,7 +17,7 @@
 -export([create/2, delete/3, policy_changed/2,
          add_binding/3, remove_bindings/3, route/2, active_for/1]).
 
--import(rabbit_sharding_util, [shard/1]).
+-import(rabbit_sharding_ext_util, [shard/1]).
 
 %%----------------------------------------------------------------------------
 
