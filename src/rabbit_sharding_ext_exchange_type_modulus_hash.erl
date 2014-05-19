@@ -14,7 +14,7 @@
 %% Copyright (c) 2011-2013 GoPivotal, Inc.  All rights reserved.
 %%
 
--module(rabbit_sharding_exchange_type_modulus_hash).
+-module(rabbit_sharding_ext_exchange_type_modulus_hash).
 
 -include_lib("rabbit_common/include/rabbit.hrl").
 
@@ -26,19 +26,19 @@
          add_binding/3, remove_bindings/3, assert_args_equivalence/2]).
 
 -rabbit_boot_step(
-   {rabbit_sharding_exchange_type_modulus_hash_registry,
-    [{description, "exchange type x-modulus-hash: registry"},
+   {rabbit_sharding_ext_exchange_type_modulus_hash_registry,
+    [{description, "ext exchange type x-modulus-hash: registry"},
      {mfa,         {rabbit_registry, register,
-                    [exchange, <<"x-modulus-hash">>, ?MODULE]}},
+                    [exchange, <<"x-modulus-hash-ext">>, ?MODULE]}},
      {cleanup, {rabbit_registry, unregister,
-                [exchange, <<"x-modulus-hash">>]}},
+                [exchange, <<"x-modulus-hash-ext">>]}},
      {requires,    rabbit_registry},
      {enables,     kernel_ready}]}).
 
 -define(PHASH2_RANGE, 134217728). %% 2^27
 
 description() ->
-    [{description, <<"Modulus Hashing Exchange">>}].
+    [{description, <<"Ext Modulus Hashing Exchange">>}].
 
 serialise_events() -> false.
 
@@ -47,7 +47,7 @@ route(#exchange{name = Name},
     Qs = rabbit_router:match_routing_key(Name, ['_']),
     case length(Qs) of
         0 -> [];
-        N -> [lists:nth(hash_mod(Routes, N), Qs)]
+        N -> [lists:nth(hash_mod(rnd(), N), Qs)]
     end.
 
 validate(_X) -> ok.
