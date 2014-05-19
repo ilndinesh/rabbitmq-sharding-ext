@@ -1,4 +1,4 @@
--module(rabbit_sharding_interceptor).
+-module(rabbit_sharding_ext_interceptor).
 
 -include_lib("rabbit_common/include/rabbit_framing.hrl").
 
@@ -9,22 +9,22 @@
 %% exported for tests
 -export([consumer_count/1]).
 
--import(rabbit_sharding_util, [a2b/1, shards_per_node/1]).
+-import(rabbit_sharding_ext_util, [a2b/1, shards_per_node/1]).
 -import(rabbit_misc, [r/3, format/2, protocol_error/3]).
 
 -rabbit_boot_step({?MODULE,
-                   [{description, "sharding interceptor"},
+                   [{description, "sharding ext interceptor"},
                     {mfa, {rabbit_registry, register,
                            [channel_interceptor,
-                            <<"sharding interceptor">>, ?MODULE]}},
+                            <<"sharding ext interceptor">>, ?MODULE]}},
                     {cleanup, {rabbit_registry, unregister,
                                [channel_interceptor,
-                                <<"sharding interceptor">>]}},
+                                <<"sharding ext interceptor">>]}},
                     {requires, rabbit_registry},
                     {enables, recovery}]}).
 
 description() ->
-    [{description, <<"Sharding interceptor for channel methods">>}].
+    [{description, <<"Sharding ext interceptor for channel methods">>}].
 
 intercept(#'basic.consume'{queue = QName} = Method, VHost) ->
     case queue_name(VHost, QName) of
@@ -97,7 +97,7 @@ applies_to(_Other) -> false.
 queue_name(VHost, QBin) ->
     case lookup_exchange(VHost, QBin) of
         {ok, X}  ->
-            case rabbit_sharding_util:shard(X) of
+            case rabbit_sharding_ext_util:shard(X) of
                 true ->
                     least_consumers(VHost, QBin, shards_per_node(X));
                 _    ->
@@ -110,7 +110,7 @@ queue_name(VHost, QBin) ->
 is_sharded(VHost, QBin) ->
     case lookup_exchange(VHost, QBin) of
         {ok, X} ->
-            rabbit_sharding_util:shard(X);
+            rabbit_sharding_ext_util:shard(X);
         _Error ->
             false
     end.
@@ -120,7 +120,7 @@ lookup_exchange(VHost, QBin) ->
 
 least_consumers(VHost, QBin, N) ->
     F = fun(QNum) ->
-                QBin2 = rabbit_sharding_util:make_queue_name(
+                QBin2 = rabbit_sharding_ext_util:make_queue_name(
                           QBin, a2b(node()), QNum),
                 case consumer_count(r(VHost, queue, QBin2)) of
                     {error, E}       -> {error, E};
