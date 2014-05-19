@@ -1,4 +1,4 @@
--module(rabbit_sharding_test).
+-module(rabbit_sharding_ext_test).
 
 -include_lib("eunit/include/eunit.hrl").
 -include_lib("amqp_client/include/amqp_client.hrl").
@@ -197,7 +197,7 @@ delete_queues(Ch, Name, N) ->
 exchange_op(Ch, Op) ->
     amqp_channel:call(Ch, Op).
 
-x_declare(Name) -> x_declare(Name, <<"x-modulus-hash">>).
+x_declare(Name) -> x_declare(Name, <<"x-modulus-hash-ext">>).
 
 x_declare(Name, Type) ->
     #'exchange.declare'{exchange = Name,
