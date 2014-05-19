@@ -1,4 +1,4 @@
--module(rabbit_sharding_util).
+-module(rabbit_sharding_ext_util).
 
 -export([shard/1, sharded_exchanges/1]).
 -export([get_policy/2, shards_per_node/1, routing_key/1]).
