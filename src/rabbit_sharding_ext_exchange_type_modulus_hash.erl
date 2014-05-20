@@ -60,11 +60,4 @@ add_binding(_Tx, _X, _B) -> ok.
 remove_bindings(_Tx, _X, _Bs) -> ok.
 assert_args_equivalence(X, Args) ->
     rabbit_exchange:assert_args_equivalence(X, Args).
-
-hash_mod(Terms, N) ->
-    M = erlang:phash2(Terms, ?PHASH2_RANGE) rem N,
-    M + 1. %% erlang lists are 1..N indexed.
-
-rnd() ->
-    integer_to_list(random:uniform(1000000)).
     
